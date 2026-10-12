@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { Truck, RotateCcw, ShieldCheck, Headphones } from "lucide-react";
+import type { Category } from "@/types";
 
 // ── TrustBar ─────────────────────────────────────────────────────────────────
 
@@ -99,62 +100,54 @@ export function TrustBar() {
 
 const fallbackCategories = [
   {
-    id: "1",
+    id: 1,
     name: "Women",
     slug: "women",
     image:
       "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=80",
-    _count: { products: 120 },
+    products_count: 120,
   },
   {
-    id: "2",
+    id: 2,
     name: "Men",
     slug: "men",
     image:
       "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?w=400&q=80",
-    _count: { products: 84 },
+    products_count: 84,
   },
   {
-    id: "3",
+    id: 3,
     name: "Accessories",
     slug: "accessories",
     image:
       "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=400&q=80",
-    _count: { products: 56 },
+    products_count: 56,
   },
   {
-    id: "4",
+    id: 4,
     name: "Shoes",
     slug: "shoes",
     image:
       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80",
-    _count: { products: 63 },
+    products_count: 63,
   },
   {
-    id: "5",
+    id: 5,
     name: "Sport",
     slug: "sport",
     image:
       "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&q=80",
-    _count: { products: 48 },
+    products_count: 48,
   },
   {
-    id: "6",
+    id: 6,
     name: "Beauty",
     slug: "beauty",
     image:
       "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80",
-    _count: { products: 37 },
+    products_count: 37,
   },
 ];
-
-type Category = {
-  id: string;
-  name: string;
-  slug: string;
-  image?: string | null;
-  _count: { products: number };
-};
 
 export function CategoryStrip({ categories }: { categories?: Category[] }) {
   const cats =
@@ -304,7 +297,7 @@ export function CategoryStrip({ categories }: { categories?: Category[] }) {
                 <div className="cat-overlay" />
               </div>
               <p className="cat-name">{cat.name}</p>
-              <p className="cat-count">{cat._count.products} items</p>
+              <p className="cat-count">{cat.products_count ?? 0} items</p>
             </Link>
           ))}
         </div>
