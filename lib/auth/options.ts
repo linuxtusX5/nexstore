@@ -13,7 +13,7 @@ declare module "next-auth" {
   }
 
   interface User {
-    role: "USER" | "ADMIN";
+    role?: "USER" | "ADMIN";
     accessToken?: string;
     refreshToken?: string;
   }
@@ -67,6 +67,7 @@ export const authOptions: NextAuthOptions = {
         const parsed = LoginSchema.safeParse(credentials);
 
         if (!parsed.success || !API_URL) {
+          console.error("[auth] invalid input or missing NEXT_PUBLIC_API_URL:", API_URL, parsed.success);
           return null;
         }
 
@@ -86,6 +87,7 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!tokenResponse.ok) {
+            console.error("[auth] token request failed:", tokenResponse.status, await tokenResponse.text());
             return null;
           }
 
@@ -94,11 +96,13 @@ export const authOptions: NextAuthOptions = {
           // 2. Get the authenticated Django user
           const userResponse = await fetch(`${API_URL}/users/me/`, {
             headers: {
-              Authorization: `Bearer ${tokens.access}`,
+              Authorization: "Bearer " + tokens.access,
+              // Bearer ${tokens.access}`,
             },
           });
 
           if (!userResponse.ok) {
+            console.error("[auth] /users/me/ failed:", userResponse.status, await userResponse.text());
             return null;
           }
 
